@@ -1,11 +1,12 @@
 Summary:	A intrusion detection tool for GNOME
+Summary(pl):	Narzêdzie do wykrywania intruzów dla GNOME
 Name:		snare
 Version:	0.9
 Release:	1
 License:	GPL
 Group:		Applications/System
-URL:		http://www.intersectalliance.com/
 Source0:	http://www.intersectalliance.com/snare/snare-%{version}.tar.gz
+URL:		http://www.intersectalliance.com/
 BuildRequires:	gnome-libs-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -13,37 +14,38 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 The Graphical User Interface component of the System iNtrusion
 Analysis and Reporting Environment (SNARE).
 
+%description -l pl
+Graficzny interfejs u¿ytkownika dla ¶rodowiska analizy i zg³aszania
+intruzów SNARE (System iNtrusion Analysis and Reporting Environment).
+
 %prep
 %setup -q
+
+echo 'Categories=System;Utility;' >> snare.desktop
 
 %build
 %configure
 
+%{__make}
+
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_bindir}
-install -d $RPM_BUILD_ROOT%{_sbindir}
-install -d $RPM_BUILD_ROOT%{_datadir}/pixmaps
-install -d $RPM_BUILD_ROOT%{_applnkdir}/System
-install -d $RPM_BUILD_ROOT%{_datadir}/gnome/ximian/Programs/Utilities
-install -d $RPM_BUILD_ROOT%{_applnkdir}/System
-cp snare-icon.png $RPM_BUILD_ROOT%{_datadir}/pixmaps
-cp snare-logo.png $RPM_BUILD_ROOT%{_datadir}/pixmaps
-cp snare.desktop $RPM_BUILD_ROOT%{_applnkdir}/System
-cp snare.desktop $RPM_BUILD_ROOT%{_datadir}/gnome/ximian/Programs/Utilities
-cp Snare.kdelnk $RPM_BUILD_ROOT%{_applnkdir}/System
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_sbindir},%{_pixmapsdir},%{_desktopdir}}
+install snare-icon.png snare-logo.png $RPM_BUILD_ROOT%{_pixmapsdir}
+install snare.desktop $RPM_BUILD_ROOT%{_desktopdir}
 
-%{__make} prefix=$RPM_BUILD_ROOT%{_prefix} install
+%{__make} install \
+	prefix=$RPM_BUILD_ROOT%{_prefix}
 
-mv $RPM_BUILD_ROOT%{_bindir}/snare $RPM_BUILD_ROOT%{_sbindir}/
-ln -s %{_bindir}/consolehelper $RPM_BUILD_ROOT/%{_bindir}/snare
+mv $RPM_BUILD_ROOT%{_bindir}/snare $RPM_BUILD_ROOT%{_sbindir}
+ln -sf %{_bindir}/consolehelper $RPM_BUILD_ROOT%{_bindir}/snare
 
 install -d $RPM_BUILD_ROOT/etc/pam.d
 cat > $RPM_BUILD_ROOT/etc/pam.d/snare <<EOF
-auth       sufficient   /lib/security/pam_rootok.so
-auth       required     /lib/security/pam_pwdb.so
-session    optional     /lib/security/pam_xauth.so
-account    required     /lib/security/pam_permit.so
+auth       sufficient   pam_rootok.so
+auth       required     pam_unix.so
+session    optional     pam_xauth.so
+account    required     pam_permit.so
 EOF
 
 install -d $RPM_BUILD_ROOT/etc/security/console.apps
@@ -54,16 +56,15 @@ PROGRAM=%{_sbindir}/snare
 SESSION=true
 EOF
 
+%clean
+rm -r $RPM_BUILD_ROOT
+
 %files
 %defattr(644,root,root,755)
 %doc README ChangeLog AUTHORS COPYING
 %attr(755,root,root) %{_sbindir}/snare
-%{_applnkdir}/System/snare.desktop
-%{_datadir}/gnome/ximian/Programs/Utilities/snare.desktop
-%{_datadir}/pixmaps/*
 %attr(755,root,root) %{_bindir}/snare
+%{_desktopdir}/snare.desktop
+%{_pixmapsdir}/*
 /etc/pam.d/snare
 /etc/security/console.apps/snare
-
-%clean
-rm -r $RPM_BUILD_ROOT
