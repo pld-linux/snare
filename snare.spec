@@ -1,5 +1,5 @@
 Summary:	A intrusion detection tool for GNOME
-Summary(pl):	Narzêdzie do wykrywania intruzów dla GNOME
+Summary(pl.UTF-8):   NarzÄ™dzie do wykrywania intruzÃ³w dla GNOME
 Name:		snare
 Version:	0.9
 Release:	1
@@ -14,9 +14,9 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 The Graphical User Interface component of the System iNtrusion
 Analysis and Reporting Environment (SNARE).
 
-%description -l pl
-Graficzny interfejs u¿ytkownika dla ¶rodowiska analizy i zg³aszania
-intruzów SNARE (System iNtrusion Analysis and Reporting Environment).
+%description -l pl.UTF-8
+Graficzny interfejs uÅ¼ytkownika dla Å›rodowiska analizy i zgÅ‚aszania
+intruzÃ³w SNARE (System iNtrusion Analysis and Reporting Environment).
 
 %prep
 %setup -q
