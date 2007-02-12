@@ -1,5 +1,5 @@
 Summary:	A intrusion detection tool for GNOME
-Summary(pl.UTF-8):   Narzędzie do wykrywania intruzów dla GNOME
+Summary(pl.UTF-8):	Narzędzie do wykrywania intruzów dla GNOME
 Name:		snare
 Version:	0.9
 Release:	1
